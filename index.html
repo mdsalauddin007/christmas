@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Merry Christmas 🎄</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+*{box-sizing:border-box}
+body{
+  margin:0;
+  min-height:100vh;
+  font-family: 'Poppins', system-ui, sans-serif;
+  background:
+    radial-gradient(circle at top,#fff3c4,#d4a017,#5a3b00);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  overflow:hidden;
+}
+
+/* Snow */
+.snow{
+  position:fixed;
+  top:-10px;
+  color:#fff;
+  opacity:.9;
+  animation:fall linear infinite;
+}
+@keyframes fall{
+  to{transform:translateY(110vh)}
+}
+
+/* Card */
+.card{
+  width:92%;
+  max-width:420px;
+  padding:26px 22px 30px;
+  border-radius:26px;
+  background:linear-gradient(
+    180deg,
+    rgba(255,255,255,.55),
+    rgba(255,255,255,.25)
+  );
+  backdrop-filter: blur(14px);
+  box-shadow:
+    0 30px 60px rgba(0,0,0,.35),
+    inset 0 0 0 1px rgba(255,255,255,.3);
+  text-align:center;
+}
+
+/* Image */
+.main-img{
+  width:200px;
+  margin:10px auto 8px;
+  display:block;
+  animation:float 3s ease-in-out infinite,
+            glow 2.2s ease-in-out infinite;
+}
+@keyframes float{
+  0%,100%{transform:translateY(0)}
+  50%{transform:translateY(-10px)}
+}
+@keyframes glow{
+  0%,100%{filter:drop-shadow(0 0 12px gold)}
+  50%{filter:drop-shadow(0 0 26px gold)}
+}
+
+/* Text */
+.top-text{
+  font-size:22px;
+  font-weight:600;
+  color:#5b3a00;
+  margin-bottom:14px;
+}
+
+/* Input */
+input{
+  width:100%;
+  padding:14px 16px;
+  font-size:16px;
+  border:none;
+  border-radius:14px;
+  outline:none;
+  text-align:center;
+  box-shadow: inset 0 2px 6px rgba(0,0,0,.15);
+}
+
+/* Button */
+button{
+  margin-top:18px;
+  padding:14px 34px;
+  font-size:17px;
+  border:none;
+  border-radius:999px;
+  cursor:pointer;
+  font-weight:600;
+  color:#000;
+  background:
+    linear-gradient(135deg,#ffcc00,#ff8c00);
+  box-shadow:
+    0 12px 24px rgba(0,0,0,.35),
+    inset 0 1px 0 rgba(255,255,255,.5);
+  transition:.25s;
+}
+button:hover{
+  transform:translateY(-2px) scale(1.04);
+}
+
+/* Result */
+.hidden{display:none}
+.title{
+  font-size:28px;
+  font-weight:700;
+  color:#4a2e00;
+}
+.from{
+  margin-top:8px;
+  font-size:18px;
+  color:#7a4a00;
+}
+</style>
+</head>
+
+<body>
+
+<script>
+for(let i=0;i<40;i++){
+  const s=document.createElement("div");
+  s.className="snow";
+  s.innerHTML="❄";
+  s.style.left=Math.random()*100+"vw";
+  s.style.fontSize=12+Math.random()*18+"px";
+  s.style.animationDuration=3+Math.random()*6+"s";
+  document.body.appendChild(s);
+}
+</script>
+
+<div class="card">
+  <img src="assets/christmas.gif" class="main-img" alt="Christmas">
+
+  <div id="inputSection">
+    <div class="top-text">🎁 Tap to Open</div>
+    <input id="nameInput" placeholder="Enter your name">
+    <button onclick="generate()">Generate Greeting</button>
+  </div>
+
+  <div id="resultSection" class="hidden">
+    <div class="title">🎄 Merry Christmas</div>
+    <div class="from" id="fromText"></div>
+    <button onclick="copyLink()">Copy Share Link</button>
+  </div>
+</div>
+
+<script>
+const p=new URLSearchParams(location.search);
+const from=p.get("from");
+
+if(from){
+  showResult(decodeURIComponent(from));
+}
+
+function generate(){
+  const name=nameInput.value.trim();
+  if(!name){alert("Enter your name");return}
+  const link=location.origin+location.pathname+"?from="+encodeURIComponent(name);
+  history.replaceState(null,"",link);
+  showResult(name);
+}
+
+function showResult(name){
+  inputSection.classList.add("hidden");
+  resultSection.classList.remove("hidden");
+  fromText.innerText="From: "+name;
+}
+
+function copyLink(){
+  navigator.clipboard.writeText(location.href);
+  alert("Link copied 🎄");
+}
+</script>
+
+</body>
+</html>
