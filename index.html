@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Merry Christmas 🎄</title>
+<title>Festival Greeting 🎄</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
@@ -31,7 +31,7 @@ body{
 .card{
   width:92%;
   max-width:420px;
-  padding:26px 22px 30px;
+  padding:26px 22px 22px;
   border-radius:26px;
   background:linear-gradient(180deg,rgba(255,255,255,.6),rgba(255,255,255,.25));
   backdrop-filter:blur(14px);
@@ -42,6 +42,7 @@ body{
 /* Image */
 .main-img{
   width:200px;
+  margin-bottom:8px;
   animation:float 3s ease-in-out infinite, glow 2.2s infinite;
 }
 @keyframes float{50%{transform:translateY(-10px)}}
@@ -50,7 +51,19 @@ body{
   50%{filter:drop-shadow(0 0 26px gold)}
 }
 
-/* UI */
+/* Text */
+.title{
+  font-size:26px;
+  font-weight:700;
+  color:#4a2e00;
+}
+.from{
+  margin-top:6px;
+  font-size:18px;
+  color:#7a4a00;
+}
+
+/* Input */
 input{
   width:100%;
   padding:14px;
@@ -59,26 +72,55 @@ input{
   text-align:center;
   font-size:16px;
 }
-button{
+
+/* Buttons */
+.btn{
   margin-top:16px;
-  padding:14px 34px;
+  padding:14px 28px;
   border:none;
   border-radius:999px;
   font-size:16px;
   font-weight:600;
   cursor:pointer;
   background:linear-gradient(135deg,#ffcc00,#ff8c00);
+  display:inline-flex;
+  align-items:center;
+  gap:10px;
 }
+
+/* WhatsApp */
+.whatsapp{
+  background:linear-gradient(135deg,#25d366,#1ebe5d);
+  color:#fff;
+}
+.whatsapp img{
+  width:22px;
+}
+
+/* Theme Switch */
+.theme-bar{
+  margin-top:18px;
+  display:flex;
+  justify-content:center;
+  gap:10px;
+}
+.theme-bar button{
+  padding:8px 16px;
+  border:none;
+  border-radius:20px;
+  cursor:pointer;
+  font-size:14px;
+  background:#fff;
+}
+
 .hidden{display:none}
-.title{font-size:26px;font-weight:700;color:#4a2e00}
-.from{margin-top:8px;font-size:18px;color:#7a4a00}
 </style>
 </head>
 
 <body>
 
 <script>
-for(let i=0;i<40;i++){
+for(let i=0;i<35;i++){
   let s=document.createElement("div");
   s.className="snow";
   s.innerHTML="❄";
@@ -91,26 +133,38 @@ for(let i=0;i<40;i++){
 
 <div class="card">
 
-  <img src="christmas.gif" class="main-img">
+  <img id="heroImg" src="christmas.gif" class="main-img">
 
-  <!-- RECEIVED VIEW -->
+  <!-- VIEW MODE -->
   <div id="viewSection" class="hidden">
-    <div class="title">🎄 Merry Christmas</div>
+    <div class="title" id="festivalText">🎄 Merry Christmas</div>
     <div class="from" id="fromText"></div>
-    <button onclick="showCreate()">Create Your Greeting</button>
+    <button class="btn" onclick="showCreate()">Create Your Greeting</button>
   </div>
 
-  <!-- CREATE VIEW -->
+  <!-- CREATE MODE -->
   <div id="createSection">
     <input id="nameInput" placeholder="Enter your name">
-    <button onclick="generate()">Generate & Share</button>
+    <button class="btn whatsapp" onclick="shareWhatsApp()">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg">
+      Share on WhatsApp
+    </button>
+  </div>
+
+  <!-- THEME BAR -->
+  <div class="theme-bar">
+    <button onclick="setTheme('christmas')">🎄 Christmas</button>
+    <button onclick="setTheme('newyear')">🎆 New Year</button>
   </div>
 
 </div>
 
 <script>
 const params=new URLSearchParams(location.search);
-const from=params.get("from");
+let from=params.get("from");
+let theme=params.get("theme") || "christmas";
+
+applyTheme(theme);
 
 if(from){
   viewSection.classList.remove("hidden");
@@ -123,21 +177,40 @@ function showCreate(){
   createSection.classList.remove("hidden");
 }
 
-function generate(){
+function shareWhatsApp(){
   const name=nameInput.value.trim();
   if(!name){alert("Enter your name");return}
-  const link=location.origin+location.pathname+"?from="+encodeURIComponent(name);
 
-  const text=`🎄 Merry Christmas 🎅
-Special wishes from ${name} 🎁
+  const link=location.origin+location.pathname+
+    "?from="+encodeURIComponent(name)+
+    "&theme="+theme;
 
-👉 Open this surprise:
+  const msg=`🎁 Festival Surprise 🎉
+Special wishes from ${name}
+
+👉 Open this greeting:
 ${link}`;
 
-  window.open(
-    "https://wa.me/?text="+encodeURIComponent(text),
-    "_blank"
-  );
+  window.open("https://wa.me/?text="+encodeURIComponent(msg),"_blank");
+}
+
+function setTheme(t){
+  theme=t;
+  applyTheme(t);
+}
+
+function applyTheme(t){
+  if(t==="newyear"){
+    heroImg.src="newyear.gif";
+    festivalText.innerText="🎆 Happy New Year";
+    document.body.style.background=
+      "radial-gradient(circle at top,#d0eaff,#4facfe,#0052a5)";
+  }else{
+    heroImg.src="christmas.gif";
+    festivalText.innerText="🎄 Merry Christmas";
+    document.body.style.background=
+      "radial-gradient(circle at top,#fff3c4,#d4a017,#5a3b00)";
+  }
 }
 </script>
 
