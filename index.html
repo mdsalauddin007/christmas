@@ -16,6 +16,7 @@ body{
   align-items:center;
   justify-content:center;
   overflow:hidden;
+  padding-bottom:70px; /* Ad space */
 }
 
 /* Snow */
@@ -93,11 +94,9 @@ input{
   background:linear-gradient(135deg,#25d366,#1ebe5d);
   color:#fff;
 }
-.whatsapp img{
-  width:22px;
-}
+.whatsapp img{width:22px}
 
-/* Theme Switch */
+/* Theme */
 .theme-bar{
   margin-top:18px;
   display:flex;
@@ -114,6 +113,20 @@ input{
 }
 
 .hidden{display:none}
+
+/* 🔻 Ad Container */
+.adsterra-bar{
+  position:fixed;
+  bottom:0;
+  left:0;
+  width:100%;
+  height:60px;
+  background:#000;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  z-index:9999;
+}
 </style>
 </head>
 
@@ -151,12 +164,25 @@ for(let i=0;i<35;i++){
     </button>
   </div>
 
-  <!-- THEME BAR -->
   <div class="theme-bar">
     <button onclick="setTheme('christmas')">🎄 Christmas</button>
     <button onclick="setTheme('newyear')">🎆 New Year</button>
   </div>
 
+</div>
+
+<!-- 🔻 A D S T E R R A  A D -->
+<div class="adsterra-bar">
+<script>
+  atOptions = {
+    'key' : '54b3262fb7de0093cd3820c7ebf8e5ac',
+    'format' : 'iframe',
+    'height' : 50,
+    'width' : 320,
+    'params' : {}
+  };
+</script>
+<script src="https://www.highperformanceformat.com/54b3262fb7de0093cd3820c7ebf8e5ac/invoke.js"></script>
 </div>
 
 <script>
